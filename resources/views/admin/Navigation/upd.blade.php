@@ -19,7 +19,7 @@
                 </li>
                 <li>
                     <span class="item_name" style="width:120px;">排序：</span>
-                    <input type="text" class="textbox textbox_295" id="nav_sort" v-model="nav_sort"  value="{{$res->nav_sort}}"/>
+                    <input type="text" class="textbox textbox_295 inputDisabled ww" id="nav_sort" v-model="nav_sort"  value="{{$count}}"/>
                     {{--<span class="errorTips">错误提示信息...</span>--}}
                 </li>
                 <li>
@@ -36,27 +36,15 @@
             </ul>
         </table>
     </center>
+    <style>
+        .inputDisabled {
+            cursor: not-allowed;
+            /*color: #a29e9e!important;*/
+            color: #000000;
+            background: none!important;
+        }
+    </style>
     <script>
-        {{--var vm=new Vue({--}}
-            {{--el:".ulColumn2",--}}
-            {{--data:{--}}
-                {{--nav_name:null,--}}
-                {{--nav_sort:null--}}
-            {{--},--}}
-            {{--methods:{--}}
-                {{--send:function () {--}}
-                    {{--var url="createDo"--}}
-                    {{--var nav_show=$(".nav_show:checked").val();--}}
-                    {{--var date={nav_name:vm.nav_name,nav_sort:vm.nav_sort,nav_show:nav_show}--}}
-                    {{--axios.post(url,date).then(function (res) {--}}
-                        {{--alert(res.data.font)--}}
-                        {{--if(res.data.code==000){--}}
-                            {{--location.href=res.data.url--}}
-                        {{--}--}}
-                    {{--})--}}
-                {{--}--}}
-            {{--}--}}
-        {{--})--}}
     $(document).on("click","#send",function () {
         var nav_name=$("#nav_name").val();
             var nav_id=$("#nav_id").val();
@@ -79,5 +67,8 @@
                 }
             })
         })
+    $(function () {
+        $(".inputDisabled").attr("disabled","false");
+    })
     </script>
 @endsection

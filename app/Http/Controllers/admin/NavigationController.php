@@ -8,10 +8,15 @@ use App\adminModel\Navigation;
 class NavigationController extends Controller
 {
     public function create(){
-        return view("admin.Navigation.create");
+        $count=Navigation::where("nav_del",1)->count();
+        $count=$count+1;
+        return view("admin.Navigation.create",["count"=>$count]);
     }
     public function createDo(){
         $data=\request()->all();
+        $count=Navigation::where("nav_del",1)->count();
+        $count=$count+1;
+        $data["nav_sort"]=$count;
         $data["nav_time"]=time();
         $res=Navigation::insert($data);
         if($res){
@@ -29,7 +34,7 @@ class NavigationController extends Controller
         echo json_encode($arr);
     }
     public function index(){
-        $res=Navigation::where("nav_del",1)->orderBy("nav_sort","asc")->paginate(3);
+        $res=Navigation::orderBy("nav_sort","asc")->where("nav_del",1)->paginate(3);
         $count=Navigation::get()->count();
         return view("admin.Navigation.index",["res"=>$res,"count"=>$count]);
     }
@@ -42,12 +47,16 @@ class NavigationController extends Controller
     }
     public function upd(){
         if(\request()->isMethod("get")){
+            $count=Navigation::where("nav_del",1)->count();
+//            $count=$count+1;
             $id=\request()->id;
             $res=Navigation::where("nav_id",$id)->first();
-            return view("admin.Navigation.upd",["res"=>$res]);
+            return view("admin.Navigation.upd",["res"=>$res,"count"=>$count]);
         }else{
             $data=\request()->all();
             $data["nav_id"]=intval($data["nav_id"]);
+//            $count=Navigation::where("nav_del",1)->count();
+//            $data["nav_sort"]=$count;
             $res=Navigation::where("nav_id",$data["nav_id"])->update($data);
             if($res){
                 echo "ok";

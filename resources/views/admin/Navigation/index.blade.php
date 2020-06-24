@@ -46,6 +46,46 @@
             padding-left: 8px;
             color: #ffffff;
         }
+        .option{
+            /*用div的样式代替select的样式*/
+            margin-left: 70px;
+            width: 100px;
+            height: 40px;
+            /*border-radius: 5px;*/
+            /*盒子阴影修饰作用,自己随意*/
+            /* box-shadow: 0 0 5px #ccc;*/
+            border: 1px solid #cccccc;
+            position: relative;
+        }
+        .option select{
+            /*清除select的边框样式*/
+            border: none;
+            /*清除select聚焦时候的边框颜色*/
+            outline: none;
+            /*将select的宽高等于div的宽高*/
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            /*隐藏select的下拉图标*/
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            /*通过padding-left的值让文字居中*/
+            padding-left: 20px;
+        }
+        /*使用伪类给select添加自己想用的图标*/
+        .option:after{
+            content: "";
+            width: 14px;
+            height: 8px;
+            background: url(../assets/arrow-down.png) no-repeat center;
+            /*通过定位将图标放在合适的位置*/
+            position: absolute;
+            right: 20px;
+            top: 41%;
+            /*给自定义的图标实现点击下来功能*/
+            pointer-events: none;
+        }
     </style>
     <script>
        $(document).on("click","#del",function () {
@@ -88,21 +128,28 @@
             })
         })
         $(document).on("click","#sort",function () {
+            var _class=$(".option").prop("class")
+            if(_class=="option"){
+                alert("操作有误")
+                return
+            }
             $(this).hide()
             var count="{{$count+1}}"
             var opti="<option >  请选择</option>"
             for (var i=1;i<count;i++){
                   opti +="<option  value="+i+"> "+i+" </option>"
             }
-            var aa="<select  id='sort_s' > "+opti +"</select>"
+
+            var aa="<div class='option' ><select  id='sort_s' > "+opti +"</select></div>"
             $(this).parent().append(aa)
+
 //            $(this).next().show()
 
         })
        $(document).on("change","#sort_s",function () {
            var _val=$("#sort_s option:selected").val()
-           var ord_val=$("#sort_s").prev().text()
-           var nav_id=$("#sort_s").prev().attr("nav_id")
+           var ord_val=$(".option").prev().text()
+           var nav_id=$(".option").prev().attr("nav_id")
            $.ajax({
                url:"/admin/Navigation/sort",
                data:{_val:_val,ord_val:ord_val,nav_id:nav_id},

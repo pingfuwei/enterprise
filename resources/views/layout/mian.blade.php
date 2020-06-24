@@ -71,11 +71,21 @@
                 @else
                     <dd><a href="{{url('admin/Navigation/create')}}">导航操作</a></dd>
                 @endif
-                {{--@if(request()->route()->getAction()["uses"]=="App\Http\Controllers\admin\NavigationController@create")--}}
-                    {{--<dd><a class="active" href="{{url('admin/Navigation/create')}}">分类</a></dd>--}}
-                {{--@else--}}
-                    {{--<dd><a href="{{url('admin/Navigation/create')}}">分类</a></dd>--}}
-                {{--@endif--}}
+                @if(request()->route()->getAction()["uses"]=="App\Http\Controllers\admin\CategoryController@create")
+                    <dd><a class="active" href="{{url('admin/Category/create')}}">普通分类</a></dd>
+                @else
+                    <dd><a href="{{url('admin/Category/create')}}">普通分类</a></dd>
+                @endif
+                @if(request()->route()->getAction()["uses"]=="App\Http\Controllers\admin\CategoryContent@create")
+                    <dd><a class="active" href="{{url('admin/CategoryContent/create')}}">普通分类内容</a></dd>
+                @else
+                    <dd><a href="{{url('admin/CategoryContent/create')}}">普通分类内容</a></dd>
+                @endif
+                @if(request()->route()->getAction()["uses"]=="App\Http\Controllers\admin\GuideCategory@create")
+                    <dd><a class="active" href="{{url('admin/GuideCategory/create')}}">指南分类</a></dd>
+                @else
+                    <dd><a href="{{url('admin/GuideCategory/create')}}">指南分类</a></dd>
+                @endif
             </dl>
         </li>
     </ul>
@@ -98,11 +108,67 @@
     $(function () {
         $(document).on("click",".quit_icon",function () {
             if(confirm("确定退出嘛")){
-                $(this).prop("href","out")
+                $(this).prop("href","http://www.arbitration.com/admin/out")
             }else{
                 $(this).prop("href","javascript:;")
             }
         })
     })
 </script>
+<style>
+    .aaa ul{
+        margin-left: 40%;
+
+    }
+    .aaa ul li .page-link{
+        float: left;
+        margin-left: 10px;
+        width: 17px;
+        height: 20px;
+        background: #5bc0de;
+        line-height: 20px;
+        padding-left: 8px;
+        color: #ffffff;
+    }
+    .option{
+        /*用div的样式代替select的样式*/
+        margin-left: 70px;
+        width: 100px;
+        height: 40px;
+        /*border-radius: 5px;*/
+        /*盒子阴影修饰作用,自己随意*/
+        /* box-shadow: 0 0 5px #ccc;*/
+        border: 1px solid #cccccc;
+        position: relative;
+    }
+    .option select{
+        /*清除select的边框样式*/
+        border: none;
+        /*清除select聚焦时候的边框颜色*/
+        outline: none;
+        /*将select的宽高等于div的宽高*/
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        /*隐藏select的下拉图标*/
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        /*通过padding-left的值让文字居中*/
+        padding-left: 20px;
+    }
+    /*使用伪类给select添加自己想用的图标*/
+    .option:after{
+        content: "";
+        width: 14px;
+        height: 8px;
+        background: url(../assets/arrow-down.png) no-repeat center;
+        /*通过定位将图标放在合适的位置*/
+        position: absolute;
+        right: 20px;
+        top: 41%;
+        /*给自定义的图标实现点击下来功能*/
+        pointer-events: none;
+    }
+</style>
 </html>

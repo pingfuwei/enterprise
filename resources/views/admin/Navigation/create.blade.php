@@ -7,7 +7,7 @@
         <ul class="ulColumn2">
             <li>
                 <span class="item_name" style="width:120px;">导航名称：</span>
-                <input type="text" class="textbox textbox_295" v-model="nav_name"  placeholder="文本信息提示..."/>
+                <input type="text" class="textbox textbox_295" v-model="nav_name"   placeholder="文本信息提示..."/>
                 {{--<span class="errorTips">错误提示信息...</span>--}}
             </li>
             <li>
@@ -17,13 +17,13 @@
             </li>
             <li>
                 <span class="item_name" style="width:120px;">排序：</span>
-                <input type="text" class="textbox textbox_295" v-model="nav_sort"  placeholder="文本信息提示..."/>
+                <input type="text" class="textbox textbox_295 inputDisabled"  value="{{$count}}"   />
                 {{--<span class="errorTips">错误提示信息...</span>--}}
             </li>
             <li>
             <span class="item_name" style="width:120px;float: left;margin-left: 300px; ">是否显示：</span>
             <div style="float: left">
-            <input type="radio" name="aa" class="nav_show" value="1">是
+            <input type="radio" name="aa" class="nav_show" value="1" checked>是
             <input type="radio" name="aa" class="nav_show" value="0">否
             </div>
             </li>
@@ -34,19 +34,27 @@
         </ul>
     </table>
     </center>
+    <style>
+        .inputDisabled {
+            cursor: not-allowed;
+            /*color: #a29e9e!important;*/
+            color: #000000;
+            background: none!important;
+        }
+    </style>
     <script>
         var vm=new Vue({
             el:".ulColumn2",
             data:{
                 nav_name:null,
-                nav_sort:null
             },
             methods:{
                 send:function () {
                     var url="createDo"
                     var nav_show=$(".nav_show:checked").val();
                     var nav_url=$("#nav_url").val();
-                    var date={nav_name:vm.nav_name,nav_sort:vm.nav_sort,nav_show:nav_show,nav_url:nav_url}
+                    var date={nav_name:vm.nav_name,nav_show:nav_show,nav_url:nav_url}
+
                     axios.post(url,date).then(function (res) {
                         alert(res.data.font)
                         if(res.data.code==000){
@@ -55,6 +63,9 @@
                     })
                 }
             }
+        })
+        $(function () {
+            $(".inputDisabled").attr("disabled","false");
         })
     </script>
 @endsection
